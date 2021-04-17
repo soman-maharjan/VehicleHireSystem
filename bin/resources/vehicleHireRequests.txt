@@ -1,0 +1,10 @@
+car regnum1 c
+lorry regnumlorry1 c 100
+lorry regnumlorry2 c 200
+lorry regnumlorry3 c 300
+lorry regnumlorry3 c 1
+lorry regnumlorry3 c 1
+minibus minibuesreg2 c 1
+minibus minibuesreg1 c 100
+
+lorry regnumlorry2 c 1

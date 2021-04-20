@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class MiniBusView {
-		JButton jBtnAddMiniBus;
+		JButton jBtnAddMiniBus, jBtnCancel;
 		JTextField jTxtMake, jTxtModel, jTxtTopSpeed, jTxtRegistrationNumber, jTxtDailyHireRate, jTxtSeatingCapacity;
 		JPanel panel;
 		JFrame frame;
@@ -17,6 +17,8 @@ public class MiniBusView {
 
 			panel = new JPanel();
 			JPanel addMinibusPanel = new JPanel();
+			
+			panel.setLayout(null);
 
 			
 			JLabel jLblTitle = new JLabel("Enter Minibus Details");
@@ -38,34 +40,38 @@ public class MiniBusView {
 			jTxtDailyHireRate = new JTextField(8);
 			jTxtSeatingCapacity = new JTextField(8);
 			jBtnAddMiniBus = new JButton("Add");
+			jBtnCancel = new JButton("Cancel");
 
-			jBtnAddMiniBus.setMaximumSize(new Dimension(280, 50));
-			panel.add(jLblTitle);
-			panel.add(Box.createRigidArea(new Dimension(0, 20)));
-			panel.add(jLblMake);
-			panel.add(jTxtMake);
-			panel.add(Box.createRigidArea(new Dimension(0, 20)));
-			panel.add(jLblModel);
-			panel.add(jTxtModel);
-			panel.add(Box.createRigidArea(new Dimension(0, 20)));
-			panel.add(jLblTopSpeed);
-			panel.add(jTxtTopSpeed);
-			panel.add(Box.createRigidArea(new Dimension(0, 20)));
-			panel.add(jLblRegistrationNumber);
-			panel.add(jTxtRegistrationNumber);
-			panel.add(Box.createRigidArea(new Dimension(0, 20)));
-			panel.add(jLblDailyHireRate);
-			panel.add(jTxtDailyHireRate);
-			panel.add(Box.createRigidArea(new Dimension(0, 20)));
-			panel.add(jLblSeatingCapacity);
-			panel.add(jTxtSeatingCapacity);
-			panel.add(Box.createRigidArea(new Dimension(0, 20)));
-			panel.add(jBtnAddMiniBus);
+			jBtnAddMiniBus.setMaximumSize(new Dimension(300, 70));
+			jBtnCancel.setMaximumSize(new Dimension(300, 70));
+			addMinibusPanel.add(jLblTitle);
+			addMinibusPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+			addMinibusPanel.add(jLblMake);
+			addMinibusPanel.add(jTxtMake);
+			addMinibusPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+			addMinibusPanel.add(jLblModel);
+			addMinibusPanel.add(jTxtModel);
+			addMinibusPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+			addMinibusPanel.add(jLblTopSpeed);
+			addMinibusPanel.add(jTxtTopSpeed);
+			addMinibusPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+			addMinibusPanel.add(jLblRegistrationNumber);
+			addMinibusPanel.add(jTxtRegistrationNumber);
+			addMinibusPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+			addMinibusPanel.add(jLblDailyHireRate);
+			addMinibusPanel.add(jTxtDailyHireRate);
+			addMinibusPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+			addMinibusPanel.add(jLblSeatingCapacity);
+			addMinibusPanel.add(jTxtSeatingCapacity);
+			addMinibusPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+			addMinibusPanel.add(jBtnAddMiniBus);
+			addMinibusPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+			addMinibusPanel.add(jBtnCancel);
 			
-			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-			panel.setBounds(370, 10, 250, 500);
-			addMinibusPanel.add(panel);
-			frame.add(addMinibusPanel);
+			addMinibusPanel.setLayout(new BoxLayout(addMinibusPanel, BoxLayout.Y_AXIS));
+			addMinibusPanel.setBounds(370, 10, 300, 530);
+			panel.add(addMinibusPanel);
+			frame.add(panel);
 		}
 
 		public JPanel getPanel() {
@@ -102,5 +108,10 @@ public class MiniBusView {
 				err = err + error + "\n";
 			}
 			JOptionPane.showMessageDialog(frame, err, "Error", JOptionPane.WARNING_MESSAGE);
+		}
+
+		public void displaySuccessMessage() {
+			JOptionPane.showMessageDialog(frame,"Minibus Created!", "Success", JOptionPane.INFORMATION_MESSAGE);
+			
 		}
 }

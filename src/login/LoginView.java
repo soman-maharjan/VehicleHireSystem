@@ -5,7 +5,7 @@ import java.awt.Font;
 import javax.swing.*;
 
 public class LoginView {
-	JButton jBtnLoginCustomer, jBtnLoginStaff, jBtnRC, jBtnRS;
+	JButton jBtnLoginCustomer, jBtnLoginStaff;
 	JTextField jTxtUsername;
 	JPasswordField jTxtPassword;
 	JPanel panel;
@@ -23,9 +23,6 @@ public class LoginView {
 		jTxtPassword = new JPasswordField(8);
 		jBtnLoginCustomer = new JButton("Customer Login");
 		jBtnLoginStaff = new JButton("Staff Login");
-		
-		jBtnRC = new JButton("Register Customer");
-		jBtnRS = new JButton("Register Staff");
 		
 		
 		Font font1 = new Font("SansSerif", Font.BOLD, 25);
@@ -50,9 +47,6 @@ public class LoginView {
 		panel.add(jTxtPassword);
 		panel.add(jBtnLoginCustomer);
 		panel.add(jBtnLoginStaff);
-		
-		panel.add(jBtnRC);
-		panel.add(jBtnRS);
 
 		panel.setSize(1000, 700);
 		frame.add(panel);

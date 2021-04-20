@@ -1,8 +1,11 @@
 package dashboard;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.util.ArrayList;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -11,19 +14,22 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import car.Car;
 import lorry.Lorry;
 import minibus.MiniBus;
+import user.User;
 
 public class CustomerDashboardView {
 	JPanel panel, userDataPanel, hiredVehiclePanel;
 	JFrame frame;
 	JList<String> list1, list2, list3, hiredVehicleList;
-	JButton jBtnRequestVehicle, jBtnViewProfile, jBtnDisplayVehicles, jBtnDisplayHiredVehicles;
+	JButton jBtnRequestVehicle, jBtnViewProfile, jBtnDisplayVehicles, jBtnDisplayHiredVehicles, jBtnLogout;
 	JLabel jLblIdentificationNumber, jLblIdentificationNumberValue, jLblCorporationName, jLblCorporationNameValue,
 			jLblAddress, jLblAddressValue, jLblPhoneNumber, jLblPhoneNumberValue, jLblEmail, jLblEmailValue,
-			jLblUsername, jLblUsernameValue;
+			jLblUsername, jLblUsernameValue, jLblCarTitle, jLblLorryTitle, jLblMinibusTitle, jLblHiredVehicle, jLblProfileTitle;
+	JScrollPane carScrollPane, lorryScrollPane, minibusScrollPane;
 
 	public void GUI(JFrame frame) {
 		this.frame = frame;
@@ -34,11 +40,13 @@ public class CustomerDashboardView {
 		jBtnViewProfile = new JButton("View Profile");
 		jBtnDisplayVehicles = new JButton("Display Vehicles");
 		jBtnDisplayHiredVehicles = new JButton("Display Hired Vehicles");
+		jBtnLogout = new JButton("Logout");
 
-		jBtnViewProfile.setBounds(0, 40, 200, 30);
-		jBtnRequestVehicle.setBounds(0, 0, 200, 30);
-		jBtnDisplayVehicles.setBounds(0, 90, 200, 30);
-		jBtnDisplayHiredVehicles.setBounds(220, 20, 200, 30);
+		jBtnViewProfile.setBounds(190, 10, 200, 30);
+		jBtnRequestVehicle.setBounds(400, 10, 200, 30);
+		jBtnDisplayVehicles.setBounds(400, 10, 200, 30);
+		jBtnDisplayHiredVehicles.setBounds(610, 10, 200, 30);
+		jBtnLogout.setBounds(10, 620, 200, 30);
 
 		jBtnDisplayVehicles.setVisible(false);
 
@@ -46,138 +54,94 @@ public class CustomerDashboardView {
 		panel.add(jBtnRequestVehicle);
 		panel.add(jBtnDisplayVehicles);
 		panel.add(jBtnDisplayHiredVehicles);
+		panel.add(jBtnLogout);
 		panel.setSize(1000, 700);
 		frame.add(panel);
 	}
 
-	public void displayVehicles(ArrayList<Car> cars, ArrayList<MiniBus> minibuses, ArrayList<Lorry> lorries,
+	public void displayVehicles(DefaultListModel<String> l1, DefaultListModel<String> l3, DefaultListModel<String> l2,
 			ArrayList<String> list) {
-
-		ArrayList<String> regNumList = new ArrayList<String>();
-		if (list != null && !(list.isEmpty())) {
-			for (String b : list) {
-				String[] val = b.split(" ");
-				regNumList.add(val[1]);
-			}
-		}
-		int i = 1;
-
-		final DefaultListModel<String> l1 = new DefaultListModel<>();
-		l1.addElement("S.N             Make                        Model                         Registration Number");
-		if (cars == null || cars.isEmpty()) {
-			l1.addElement("No Cars Added!");
-		} else {
-			if (list != null && !(list.isEmpty())) {
-				for (Car car : cars) {
-					if (!(regNumList.contains(car.getRegistrationNumber()))) {
-						l1.addElement(
-								i + "                 " + car.getMake() + "                        " + car.getModel()
-										+ "                                       " + car.getRegistrationNumber());
-					}
-				}
-			} else {
-				for (Car car1 : cars) {
-					l1.addElement(
-							i + "                 " + car1.getMake() + "                        " + car1.getModel()
-									+ "                                       " + car1.getRegistrationNumber());
-					i++;
-				}
-			}
-		}
-
+		carScrollPane = new JScrollPane();
+		lorryScrollPane = new JScrollPane();
+		minibusScrollPane = new JScrollPane();
+		
+		jLblCarTitle = new JLabel("Cars for Hire");
+		jLblLorryTitle = new JLabel("Lorry for Hire");
+		jLblMinibusTitle = new JLabel("Minibus for Hire");
+		
 		list1 = new JList<>(l1);
-		list1.setBounds(250, 100, 400, 100);
-		panel.add(list1);
+		carScrollPane.setViewportView(list1);
+		carScrollPane.setBounds(150, 90, 700, 100);
+		jLblCarTitle.setFont(new Font("Serif", Font.BOLD, 20));
+		jLblCarTitle.setBounds(450, 60, 200, 30);
+		panel.add(jLblCarTitle);
+		panel.add(carScrollPane);
 
 		// display Lorry on JList
-		i = 1;
-		final DefaultListModel<String> l2 = new DefaultListModel<>();
-		l2.addElement("S.N        Make            Model            Registration Number");
-		if (lorries == null || lorries.isEmpty()) {
-			l1.addElement("No Lorries Added!");
-		} else {
-			if (list != null && !(list.isEmpty())) {
-				for (Lorry lorry : lorries) {
-					if (!(regNumList.contains(lorry.getRegistrationNumber()))) {
-						l2.addElement(i + "                 " + lorry.getMake() + "                        "
-								+ lorry.getModel() + "                                       "
-								+ lorry.getRegistrationNumber());
-					}
-				}
-			} else {
-				for (Lorry lorry : lorries) {
-					l2.addElement(
-							i + "                 " + lorry.getMake() + "                        " + lorry.getModel()
-									+ "                                       " + lorry.getRegistrationNumber());
-					i++;
-				}
-			}
-		}
+		
 		list2 = new JList<>(l2);
-		list2.setBounds(250, 240, 400, 100);
-		panel.add(list2);
+		lorryScrollPane.setViewportView(list2);
+		lorryScrollPane.setBounds(150, 240, 700, 100);
+		jLblLorryTitle.setFont(new Font("Serif", Font.BOLD, 20));
+		jLblLorryTitle.setBounds(450, 200, 200, 30);
+		panel.add(lorryScrollPane);
+		panel.add(jLblLorryTitle);
 
 		// display Minibus on JList
-		i = 1;
-		final DefaultListModel<String> l3 = new DefaultListModel<>();
-		l3.addElement("S.N        Make            Model            Registration Number");
-		if (minibuses == null || minibuses.isEmpty()) {
-			l3.addElement("No Minibus Added!");
-		} else {
-			if (list != null && !(list.isEmpty())) {
-				for (MiniBus minibus : minibuses) {
-					if (!(regNumList.contains(minibus.getRegistrationNumber()))) {
-						l3.addElement(i + "                 " + minibus.getMake() + "                        "
-								+ minibus.getModel() + "                                       "
-								+ minibus.getRegistrationNumber());
-					}
-				}
-			} else {
-				for (MiniBus minibus : minibuses) {
-					l3.addElement(i + "                 " + minibus.getMake() + "                        "
-							+ minibus.getModel() + "                                       "
-							+ minibus.getRegistrationNumber());
-					i++;
-				}
-			}
-		}
 		list3 = new JList<>(l3);
-		list3.setBounds(250, 370, 400, 100);
-		panel.add(list3);
+		minibusScrollPane.setViewportView(list3);
+		minibusScrollPane.setBounds(150, 390, 700, 100);
+		
+		jLblMinibusTitle.setFont(new Font("Serif", Font.BOLD, 20));
+		jLblMinibusTitle.setBounds(450, 350, 200, 30);
+		panel.add(minibusScrollPane);
+		panel.add(jLblMinibusTitle);
 	}
 
-	public void displayUserData() {
+	public void displayUserData(User user) {
 		userDataPanel = new JPanel();
-		userDataPanel.setBackground(Color.black);
+		
 		jLblIdentificationNumber = new JLabel("Identificaiton Number: ");
-		jLblIdentificationNumberValue = new JLabel("--");
+		jLblIdentificationNumberValue = new JLabel(user.getIdentificationNumber());
 		jLblCorporationName = new JLabel("Corporation Name: ");
-		jLblCorporationNameValue = new JLabel("--");
+		jLblCorporationNameValue = new JLabel(user.getCorporationName());
 		jLblAddress = new JLabel("Address: ");
-		jLblAddressValue = new JLabel("--");
+		jLblAddressValue = new JLabel(user.getAddress());
 		jLblPhoneNumber = new JLabel("Phone Number: ");
-		jLblPhoneNumberValue = new JLabel("--");
+		jLblPhoneNumberValue = new JLabel(user.getPhoneNumber());
 		jLblEmail = new JLabel("Email: ");
-		jLblEmailValue = new JLabel("--");
+		jLblEmailValue = new JLabel(user.getEmail());
 		jLblUsername = new JLabel("Username: ");
-		jLblUsernameValue = new JLabel("--");
+		jLblUsernameValue = new JLabel(user.getUsername());
 
 		userDataPanel.setLayout(new BoxLayout(userDataPanel, BoxLayout.Y_AXIS));
-
+		jLblProfileTitle = new JLabel("Your Information");
+		userDataPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 		userDataPanel.add(jLblIdentificationNumber);
 		userDataPanel.add(jLblIdentificationNumberValue);
+		userDataPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 		userDataPanel.add(jLblCorporationName);
 		userDataPanel.add(jLblCorporationNameValue);
+		userDataPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 		userDataPanel.add(jLblAddress);
 		userDataPanel.add(jLblAddressValue);
+		userDataPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 		userDataPanel.add(jLblPhoneNumber);
 		userDataPanel.add(jLblPhoneNumberValue);
+		userDataPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 		userDataPanel.add(jLblEmail);
 		userDataPanel.add(jLblEmailValue);
+		userDataPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 		userDataPanel.add(jLblUsername);
 		userDataPanel.add(jLblUsernameValue);
+		userDataPanel.setVisible(true);
+		jLblProfileTitle.setVisible(true);
 
-		userDataPanel.setBounds(300, 100, 200, 250);
+		jLblProfileTitle.setFont(new Font("Serif", Font.BOLD, 20));
+//		userDataPanel.setBackground(Color.white);
+		userDataPanel.setBounds(400, 120, 300, 400);
+		jLblProfileTitle.setBounds(420, 90, 200, 30);
+		panel.add(jLblProfileTitle);
 		panel.add(userDataPanel);
 	}
 
@@ -191,14 +155,24 @@ public class CustomerDashboardView {
 
 	public void displayHiredVehicles(DefaultListModel<String> l1) {
 		hiredVehiclePanel = new JPanel();
+		jLblHiredVehicle = new JLabel("Currently Hired Vehicles");
 		hiredVehiclePanel.setLayout(null);
-
 		hiredVehicleList = new JList<>(l1);
-		hiredVehicleList.setBounds(0, 0, 400, 300);
+		hiredVehicleList.setBounds(0, 0, 600, 400);
 		hiredVehiclePanel.add(hiredVehicleList);
 
-		hiredVehiclePanel.setBounds(300, 100, 400, 300);
+		hiredVehiclePanel.setBounds(200, 150, 600, 400);
+		jLblHiredVehicle.setBounds(400, 100, 300, 30);
 		panel.add(hiredVehiclePanel);
+		panel.add(jLblHiredVehicle);
+		jLblHiredVehicle.setFont(new Font("Serif", Font.BOLD, 20));
+		hiredVehiclePanel.setVisible(true);
+		jLblHiredVehicle.setVisible(true);
+		hiredVehiclePanel.setBackground(Color.white);
+	}
 
+	public void displaySuccessMessage() {
+		JOptionPane.showMessageDialog(frame, "Vehicle has been requested for Hire!", "Success",
+				JOptionPane.INFORMATION_MESSAGE);
 	}
 }

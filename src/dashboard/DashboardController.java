@@ -19,6 +19,9 @@ import javax.swing.event.ListSelectionListener;
 import car.Car;
 import car.CarController;
 import car.CarView;
+import login.Login;
+import login.LoginController;
+import login.LoginView;
 import lorry.Lorry;
 import lorry.LorryController;
 import lorry.LorryView;
@@ -84,25 +87,33 @@ public class DashboardController implements ActionListener {
 
 		if (accountType.contentEquals("customer")) {
 			customerView.GUI(frame);
-			customerView.displayVehicles(cars, minibuses, lorries,
+			customerView.displayVehicles(
+					model.getCustomersCarList(cars, model.getHiredVehicles("./src/resources/hiredVehicle.txt")),
+					model.getCustomersMinibusList(minibuses,
+							model.getHiredVehicles("./src/resources/hiredVehicle.txt")),
+					model.getCustomersLorryList(lorries, model.getHiredVehicles("./src/resources/hiredVehicle.txt")),
 					model.getHiredVehicles("./src/resources/hiredVehicle.txt"));
 
 			customerView.jBtnRequestVehicle.addActionListener(this);
 			customerView.jBtnViewProfile.addActionListener(this);
 			customerView.jBtnDisplayHiredVehicles.addActionListener(this);
+			customerView.jBtnDisplayVehicles.addActionListener(this);
+			customerView.jBtnLogout.addActionListener(this);
 
 		} else {
 
 			staffView.GUI(frame);
-			staffView.displayVehicles(cars, minibuses, lorries);
+			staffView.displayVehicles(model.getStaffVehicleList(cars, "No cars addeed!"),
+					model.getStaffVehicleList(lorries, "No Lorry addeed!"),
+					model.getStaffVehicleList(minibuses, "No Minibus addeed!"));
 
 			user = new User();
 			ArrayList<User> users = user.getObjects("./src/resources/customerObjects.dat");
-			staffView.displayCustomerList(users);
+			staffView.displayCustomerList(model.getCustomersList(users));
 			staffView.displayCustomerDetail();
 
 			staffView.displayCustomerData.setVisible(false);
-			staffView.customerListPanel.setVisible(false);
+			staffView.customerScrollPane.setVisible(false);
 			staffView.jLblCustomerListTitle.setVisible(false);
 			staffView.jLblCustomerDetailsTitle.setVisible(false);
 
@@ -119,6 +130,8 @@ public class DashboardController implements ActionListener {
 			staffView.jBtnHireOut.addActionListener(this);
 			staffView.jBtnHiredVehicle.addActionListener(this);
 			staffView.jBtnReturnVehicle.addActionListener(this);
+			staffView.jBtnLogout.addActionListener(this);
+			staffView.jBtnDisplayVehicles.addActionListener(this);
 
 			staffView.list1.addListSelectionListener(new ListSelectionListener() {
 
@@ -247,17 +260,17 @@ public class DashboardController implements ActionListener {
 			staffView.getPanel().setVisible(false);
 			CarView carView = new CarView();
 			Car carModel = new Car("", 0, 0, "", 0, "", 0);
-			CarController carController = new CarController(carView, carModel, frame);
+			CarController carController = new CarController(carView, carModel, frame, username);
 		} else if (e.getSource() == staffView.jBtnAddMiniBus) {
 			staffView.getPanel().setVisible(false);
 			MiniBus minibus = new MiniBus("", 0, 0, "", 0, 0);
 			MiniBusView minibusView = new MiniBusView();
-			MiniBusController minibusController = new MiniBusController(minibusView, minibus, frame);
+			MiniBusController minibusController = new MiniBusController(minibusView, minibus, frame, username);
 		} else if (e.getSource() == staffView.jBtnAddLorry) {
 			staffView.getPanel().setVisible(false);
 			Lorry lorry = new Lorry("", 0, 0, "", 0, 0);
 			LorryView lorryView = new LorryView();
-			LorryController lorryController = new LorryController(lorryView, lorry, frame);
+			LorryController lorryController = new LorryController(lorryView, lorry, frame, username);
 		} else if (e.getSource() == staffView.jBtnRemoveVehicle) {
 			if (staffView.list1.getSelectedIndex() < 1 && staffView.list2.getSelectedIndex() < 1
 					&& staffView.list3.getSelectedIndex() < 1) {
@@ -296,11 +309,18 @@ public class DashboardController implements ActionListener {
 				}
 			}
 		} else if (e.getSource() == staffView.jBtnDisplayAllCustomer) {
+			staffView.jBtnDisplayVehicles.setVisible(true);
 			staffView.displayCustomerData.setVisible(true);
-			staffView.customerListPanel.setVisible(true);
+			staffView.customerScrollPane.setVisible(true);
 			staffView.jLblCustomerListTitle.setVisible(true);
 			staffView.jLblCustomerDetailsTitle.setVisible(true);
+			if (staffView.displayHireRequestPanel != null) {
+				staffView.displayHireRequestPanel.setVisible(false);
+			}
 
+			if (staffView.displayHiredVehiclePane != null) {
+				staffView.displayHiredVehiclePane.setVisible(false);
+			}
 			hideVehiclesList();
 		} else if (e.getSource() == customerView.jBtnRequestVehicle) {
 			if (customerView.list1.getSelectedIndex() < 1 && customerView.list2.getSelectedIndex() < 1
@@ -323,6 +343,8 @@ public class DashboardController implements ActionListener {
 											+ " " + username);
 							outputFile.close();
 							customerView.list1.clearSelection();
+
+							customerView.displaySuccessMessage();
 
 						} catch (IOException e1) {
 							e1.printStackTrace();
@@ -380,7 +402,18 @@ public class DashboardController implements ActionListener {
 				}
 			}
 		} else if (e.getSource() == staffView.jBtnDisplayHireRequest) {
+			staffView.jBtnDisplayVehicles.setVisible(true);
 			hideVehiclesList();
+			if (staffView.displayCustomerData != null) {
+				staffView.displayCustomerData.setVisible(false);
+				staffView.customerScrollPane.setVisible(false);
+				staffView.jLblCustomerListTitle.setVisible(false);
+				staffView.jLblCustomerDetailsTitle.setVisible(false);
+			}
+			if (staffView.displayHiredVehiclePane != null) {
+				staffView.displayHiredVehiclePane.setVisible(false);
+				staffView.jBtnReturnVehicle.setVisible(false);
+			}
 			staffView.jBtnHireOut.setVisible(true);
 			ArrayList<String> list = new ArrayList<String>();
 			File requestFile = new File("./src/resources/vehicleHireRequests.txt");
@@ -400,7 +433,10 @@ public class DashboardController implements ActionListener {
 			} else {
 				list = null;
 			}
-			staffView.displayHireRequests(list, model.getHiredVehicles("./src/resources/hiredVehicle.txt"));
+			ArrayList<String> hiredVehicleList = model.getHiredVehicles("./src/resources/hiredVehicle.txt");
+			staffView.displayHireRequests(model.getVehiceHireRequestList(list, hiredVehicleList, "car"),
+					model.getVehiceHireRequestList(list, hiredVehicleList, "lorry"),
+					model.getVehiceHireRequestList(list, hiredVehicleList, "minibus"));
 
 		} else if (e.getSource() == staffView.jBtnHireOut) {
 			if (staffView.list5.getSelectedIndex() < 1 && staffView.list6.getSelectedIndex() < 1
@@ -411,24 +447,27 @@ public class DashboardController implements ActionListener {
 				if (staffView.list5.getSelectedIndex() > 0
 						&& !(staffView.list5.getSelectedValue().contentEquals("No Vehicle Hire Request!"))) {
 
-					writeHiredVehicle("./src/resources/hiredVehicle.txt", staffView.list5.getSelectedValue(), "car");
+					model.writeHiredVehicle("./src/resources/hiredVehicle.txt", staffView.list5.getSelectedValue(),
+							"car");
 
 					staffView.getPanel().setVisible(false);
-					hideVehicleList();
-
-					DashboardController dashboardController = new DashboardController(staffView, customerView, model,
-							this.frame, "staff", username);
 
 					JOptionPane.showMessageDialog(frame, "The vehicle has been hired out to customer!",
 							"Vehicle Hire System", JOptionPane.INFORMATION_MESSAGE);
+
+					DashboardController dashboardController = new DashboardController(staffView, customerView, model,
+							this.frame, "staff", username);
 				}
 				if (staffView.list6.getSelectedIndex() > 0
 						&& !(staffView.list6.getSelectedValue().contentEquals("No Vehicle Hire Request!"))) {
 
-					writeHiredVehicle("./src/resources/hiredVehicle.txt", staffView.list6.getSelectedValue(), "lorry");
+					model.writeHiredVehicle("./src/resources/hiredVehicle.txt", staffView.list6.getSelectedValue(),
+							"lorry");
 
 					staffView.getPanel().setVisible(false);
-					hideVehicleList();
+
+					JOptionPane.showMessageDialog(frame, "The vehicle has been hired out to customer!",
+							"Vehicle Hire System", JOptionPane.INFORMATION_MESSAGE);
 
 					DashboardController dashboardController = new DashboardController(staffView, customerView, model,
 							this.frame, "staff", username);
@@ -436,21 +475,35 @@ public class DashboardController implements ActionListener {
 				if (staffView.list7.getSelectedIndex() > 0
 						&& !(staffView.list7.getSelectedValue().contentEquals("No Vehicle Hire Request!"))) {
 
-					writeHiredVehicle("./src/resources/hiredVehicle.txt", staffView.list7.getSelectedValue(),
+					model.writeHiredVehicle("./src/resources/hiredVehicle.txt", staffView.list7.getSelectedValue(),
 							"minibus");
 
 					staffView.getPanel().setVisible(false);
-					hideVehicleList();
+
+					JOptionPane.showMessageDialog(frame, "The vehicle has been hired out to customer!",
+							"Vehicle Hire System", JOptionPane.INFORMATION_MESSAGE);
 
 					DashboardController dashboardController = new DashboardController(staffView, customerView, model,
 							this.frame, "staff", username);
 				}
 			}
 		} else if (e.getSource() == staffView.jBtnHiredVehicle) {
-//			hideVehicleList();
+			staffView.jBtnDisplayVehicles.setVisible(true);
 			hideVehiclesList();
 
-			staffView.displayCustomerData.setVisible(false);
+			staffView.jBtnReturnVehicle.setVisible(true);
+
+			if (staffView.displayHireRequestPanel != null) {
+				staffView.displayHireRequestPanel.setVisible(false);
+				staffView.jBtnHireOut.setVisible(false);
+			}
+
+			if (staffView.displayCustomerData != null) {
+				staffView.displayCustomerData.setVisible(false);
+				staffView.customerScrollPane.setVisible(false);
+				staffView.jLblCustomerListTitle.setVisible(false);
+				staffView.jLblCustomerDetailsTitle.setVisible(false);
+			}
 
 			ArrayList<String> hiredVehicles = model.getHiredVehicles("./src/resources/hiredVehicle.txt");
 			if (hiredVehicles != null) {
@@ -472,7 +525,7 @@ public class DashboardController implements ActionListener {
 					}
 				}
 
-				rewriteHiredVehicle("./src/resources/hiredVehicle.txt", hiredVehicles);
+				model.rewriteHiredVehicle("./src/resources/hiredVehicle.txt", hiredVehicles);
 
 				staffView.getPanel().setVisible(false);
 
@@ -480,71 +533,77 @@ public class DashboardController implements ActionListener {
 						this.frame, "staff", username);
 			}
 		} else if (e.getSource() == customerView.jBtnViewProfile) {
-			customerView.jBtnDisplayVehicles.setVisible(true);
 			customerView.jBtnRequestVehicle.setVisible(false);
-			customerView.list1.setVisible(false);
-			customerView.list2.setVisible(false);
-			customerView.list3.setVisible(false);
-
-			customerView.displayUserData();
+			customerView.jBtnDisplayVehicles.setVisible(true);
+			hideCustomerVehicles();
+			if (customerView.hiredVehiclePanel != null) {
+				customerView.hiredVehiclePanel.setVisible(false);
+				customerView.jLblHiredVehicle.setVisible(false);
+			}
+			User user = model.getUser(username, model.getObjects("./src/resources/customerObjects.dat"));
+			customerView.displayUserData(user);
 		} else if (e.getSource() == customerView.jBtnDisplayHiredVehicles) {
-			customerView.list1.setVisible(false);
-			customerView.list2.setVisible(false);
-			customerView.list3.setVisible(false);
+			customerView.jBtnRequestVehicle.setVisible(false);
+			customerView.jBtnDisplayVehicles.setVisible(true);
+			if (customerView.userDataPanel != null) {
+				customerView.userDataPanel.setVisible(false);
+				customerView.jLblProfileTitle.setVisible(false);
+			}
+
+			hideCustomerVehicles();
 
 			customerView.displayHiredVehicles(model.getCustomersHiredVehicle(username, cars, lorries, minibuses));
+		} else if (e.getSource() == staffView.jBtnLogout) {
+			staffView.getPanel().setVisible(false);
+			Login loginModel = new Login();
+			LoginView loginView = new LoginView();
+			LoginController loginController = new LoginController(loginView, loginModel, frame);
+		} else if (e.getSource() == staffView.jBtnDisplayVehicles) {
+			staffHomepage();
+		} else if (e.getSource() == customerView.jBtnDisplayVehicles) {
+			customerHomepage();
+		} else if (e.getSource() == customerView.jBtnLogout) {
+			customerView.getPanel().setVisible(false);
+			Login loginModel = new Login();
+			LoginView loginView = new LoginView();
+			LoginController loginController = new LoginController(loginView, loginModel, frame);
 		}
-	}
-
-	public void hideVehicleList() {
-		staffView.getVehicleDataDisplayPanel().setVisible(false);
-		staffView.list1.setVisible(false);
-		staffView.list2.setVisible(false);
-		staffView.list3.setVisible(false);
-		staffView.jLblCarTitle.setVisible(false);
-		staffView.jLblLorryTitle.setVisible(false);
-		staffView.jLblMinibusTitle.setVisible(false);
 	}
 
 	public void hideVehiclesList() {
-		staffView.getVehicleDataDisplayPanel().setVisible(false);
-		staffView.carListPanel.setVisible(false);
-		staffView.minibusListPanel.setVisible(false);
-		staffView.lorryListPanel.setVisible(false);
-		staffView.jLblCarTitle.setVisible(false);
-		staffView.jLblLorryTitle.setVisible(false);
-		staffView.jLblMinibusTitle.setVisible(false);
-		staffView.jLblVehicleDetails.setVisible(false);
-	}
-
-	public void writeHiredVehicle(String fileName, String vehicleInfo, String vehicleType) {
-		PrintWriter outputFile;
-		String[] val = vehicleInfo.split("\\s+");
-		try {
-			outputFile = new PrintWriter(new FileWriter(fileName, true));
-			outputFile.println(vehicleType + " " + val[1] + " " + val[2]);
-			outputFile.close();
-			staffView.list5.clearSelection();
-			staffView.list6.clearSelection();
-			staffView.list7.clearSelection();
-
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		if (staffView.carScrollPane != null) {
+			staffView.getVehicleDataDisplayPanel().setVisible(false);
+			staffView.carScrollPane.setVisible(false);
+			staffView.minibusScrollPane.setVisible(false);
+			staffView.lorryScrollPane.setVisible(false);
+			staffView.jLblCarTitle.setVisible(false);
+			staffView.jLblLorryTitle.setVisible(false);
+			staffView.jLblMinibusTitle.setVisible(false);
+			staffView.jLblVehicleDetails.setVisible(false);
 		}
 	}
 
-	public void rewriteHiredVehicle(String fileName, ArrayList<String> vehicles) {
-		PrintWriter outputFile;
-		try {
-			outputFile = new PrintWriter(new FileWriter(fileName));
-			for (String a : vehicles) {
-				outputFile.println(a);
-			}
+	public void staffHomepage() {
+		staffView.getPanel().setVisible(false);
 
-			outputFile.close();
+		DashboardController dashboardController = new DashboardController(staffView, customerView, model, this.frame,
+				"staff", username);
+	}
 
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+	public void customerHomepage() {
+		customerView.getPanel().setVisible(false);
+
+		DashboardController dashboardController = new DashboardController(staffView, customerView, model, this.frame,
+				"customer", username);
+	}
+
+	public void hideCustomerVehicles() {
+
+		customerView.carScrollPane.setVisible(false);
+		customerView.lorryScrollPane.setVisible(false);
+		customerView.minibusScrollPane.setVisible(false);
+		customerView.jLblMinibusTitle.setVisible(false);
+		customerView.jLblCarTitle.setVisible(false);
+		customerView.jLblLorryTitle.setVisible(false);
 	}
 }

@@ -29,9 +29,6 @@ public class LoginController implements ActionListener {
 		view.GUI(frame);
 		view.jBtnLoginCustomer.addActionListener(this);
 		view.jBtnLoginStaff.addActionListener(this);
-		
-		view.jBtnRC.addActionListener(this);
-		view.jBtnRS.addActionListener(this);
 	}
 
 	@Override
@@ -80,17 +77,6 @@ public class LoginController implements ActionListener {
 			} else {
 				JOptionPane.showMessageDialog(frame, "Username Does not Exist!", "Error", JOptionPane.WARNING_MESSAGE);
 			}
-		}
-		else if (e.getSource() == view.jBtnRC) {
-			view.getPanel().setVisible(false);
-			User user = new User();
-			UserView userView = new UserView();
-			UserController userController = new UserController(userView, user, frame, "customer");
-		}else if (e.getSource() == view.jBtnRS) {
-			view.getPanel().setVisible(false);
-			User user = new User();
-			UserView userView = new UserView();
-			UserController userController = new UserController(userView, user, frame, "staff");
 		}
 	}
 }

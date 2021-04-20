@@ -1,1 +1,5 @@
+lorry regnumlorry1 c
+car asdasd c
+lorry regnumlorry2 c
+
 car regnum1 c

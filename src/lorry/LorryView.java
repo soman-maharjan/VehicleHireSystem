@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class LorryView {
-	JButton jBtnAddLorry;
+	JButton jBtnAddLorry, jBtnCancel;
 	JTextField jTxtMake, jTxtModel, jTxtTopSpeed, jTxtRegistrationNumber, jTxtDailyHireRate, jTxtLoadCapacity;
 	JPanel panel;
 	JFrame frame;
@@ -17,6 +17,7 @@ public class LorryView {
 
 		panel = new JPanel();
 		JPanel addLorryPanel = new JPanel();
+		panel.setLayout(null);
 
 		JLabel jLblMake = new JLabel("Make (Honda, Ford): ");
 		JLabel jLblModel = new JLabel("Model (2015): ");
@@ -37,34 +38,38 @@ public class LorryView {
 		jTxtDailyHireRate = new JTextField(8);
 		jTxtLoadCapacity = new JTextField(8);
 		jBtnAddLorry = new JButton("Add Lorry");
+		jBtnCancel = new JButton("Cancel");
 		jBtnAddLorry.setMaximumSize(new Dimension(260, 50));
+		jBtnCancel.setMaximumSize(new Dimension(260, 50));
 
-		panel.add(jLblTitle);
-		panel.add(Box.createRigidArea(new Dimension(0, 20)));
-		panel.add(jLblMake);
-		panel.add(jTxtMake);
-		panel.add(Box.createRigidArea(new Dimension(0, 20)));
-		panel.add(jLblModel);
-		panel.add(jTxtModel);
-		panel.add(Box.createRigidArea(new Dimension(0, 20)));
-		panel.add(jLblTopSpeed);
-		panel.add(jTxtTopSpeed);
-		panel.add(Box.createRigidArea(new Dimension(0, 20)));
-		panel.add(jLblRegistrationNumber);
-		panel.add(jTxtRegistrationNumber);
-		panel.add(Box.createRigidArea(new Dimension(0, 20)));
-		panel.add(jLblDailyHireRate);
-		panel.add(jTxtDailyHireRate);
-		panel.add(Box.createRigidArea(new Dimension(0, 20)));
-		panel.add(jLblLoadCapacity);
-		panel.add(jTxtLoadCapacity);
-		panel.add(Box.createRigidArea(new Dimension(0, 20)));
-		panel.add(jBtnAddLorry);
+		addLorryPanel.add(jLblTitle);
+		addLorryPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		addLorryPanel.add(jLblMake);
+		addLorryPanel.add(jTxtMake);
+		addLorryPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		addLorryPanel.add(jLblModel);
+		addLorryPanel.add(jTxtModel);
+		addLorryPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		addLorryPanel.add(jLblTopSpeed);
+		addLorryPanel.add(jTxtTopSpeed);
+		addLorryPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		addLorryPanel.add(jLblRegistrationNumber);
+		addLorryPanel.add(jTxtRegistrationNumber);
+		addLorryPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		addLorryPanel.add(jLblDailyHireRate);
+		addLorryPanel.add(jTxtDailyHireRate);
+		addLorryPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		addLorryPanel.add(jLblLoadCapacity);
+		addLorryPanel.add(jTxtLoadCapacity);
+		addLorryPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		addLorryPanel.add(jBtnAddLorry);
+		addLorryPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		addLorryPanel.add(jBtnCancel);
 
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.setBounds(370, 10, 250, 500);
-		addLorryPanel.add(panel);
-		frame.add(addLorryPanel);
+		addLorryPanel.setLayout(new BoxLayout(addLorryPanel, BoxLayout.Y_AXIS));
+		addLorryPanel.setBounds(370, 10, 250, 530);
+		panel.add(addLorryPanel);
+		frame.add(panel);
 	}
 
 	public JPanel getPanel() {
@@ -101,5 +106,9 @@ public class LorryView {
 			err = err + error + "\n";
 		}
 		JOptionPane.showMessageDialog(frame, err, "Error", JOptionPane.WARNING_MESSAGE);
+	}
+	
+	public void displaySuccessMessage(String success) {
+		JOptionPane.showMessageDialog(frame, success, "Success", JOptionPane.INFORMATION_MESSAGE);
 	}
 }

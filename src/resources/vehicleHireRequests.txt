@@ -6,5 +6,8 @@ lorry regnumlorry3 c 1
 lorry regnumlorry3 c 1
 minibus minibuesreg2 c 1
 minibus minibuesreg1 c 100
-
 lorry regnumlorry2 c 1
+car asdasd c
+car regnum2 c
+lorry regnumlorry3 c 200
+lorry regnumlorry3 c 1

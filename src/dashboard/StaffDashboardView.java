@@ -30,14 +30,16 @@ import user.User;
 public class StaffDashboardView {
 	JButton jBtnAddVehicle, jBtnRegisterCustomer, jBtnRemoveVehicle, jBtnRegisterStaff, jBtnAddCar, jBtnAddMiniBus,
 			jBtnAddLorry, jBtnDisplayAllCustomer, jBtnDisplayHireRequest, jBtnHireOut, jBtnReturnVehicle,
-			jBtnHiredVehicle;
-	JPanel panel, displayVehicleData, displayCustomerData, displayHireRequestPanel, displayHiredVehiclePanel,
-			customerListPanel, carListPanel, lorryListPanel, minibusListPanel;
+			jBtnHiredVehicle, jBtnLogout, jBtnDisplayVehicles;
+	JPanel panel, displayVehicleData, displayCustomerData, displayHireRequestPanel;
 	JFrame frame;
 
 	JList<String> list1, list2, list3, list4, list5, list6, list7, list10;
 
 	JPanel carPanel;
+
+	JScrollPane carScrollPane, lorryScrollPane, minibusScrollPane, customerScrollPane, carRequestPane,
+			minibusRequestPane, lorryRequestPane, displayHiredVehiclePane;
 
 	JLabel jLblMakeValue, jLblMake, jLblModel, jLblModelValue, jLblTopSpeed, jLblTopSpeedValue, jLblRegistrationNumber,
 			jLblRegistrationNumberValue, jLblDailyHireRate, jLblDailyHireRateValue, jLblFuelType, jLblFuelTypeValue,
@@ -68,17 +70,21 @@ public class StaffDashboardView {
 		jBtnHireOut = new JButton("Hire Out");
 		jBtnReturnVehicle = new JButton("Return Vehicle");
 		jBtnHiredVehicle = new JButton("View all Hired Vehicles");
+		jBtnLogout = new JButton("Log Out");
+		jBtnDisplayVehicles = new JButton("Display all Vehicles");
 
 		jBtnAddVehicle.setBounds(10, 90, 200, 30);
 		jBtnRemoveVehicle.setBounds(10, 130, 200, 30);
 		jBtnRegisterCustomer.setBounds(10, 170, 200, 30);
 		jBtnRegisterStaff.setBounds(10, 210, 200, 30);
+		jBtnDisplayVehicles.setBounds(10, 10, 200, 30);
 
 		jBtnHireOut.setBounds(260, 10, 170, 30);
 		jBtnReturnVehicle.setBounds(230, 10, 200, 30);
 		jBtnDisplayHireRequest.setBounds(440, 10, 170, 30);
 		jBtnDisplayAllCustomer.setBounds(620, 10, 170, 30);
 		jBtnHiredVehicle.setBounds(800, 10, 170, 30);
+		jBtnLogout.setBounds(10, 620, 200, 30);
 
 		jBtnAddCar.setBounds(10, 290, 200, 30);
 		jBtnAddMiniBus.setBounds(10, 330, 200, 30);
@@ -155,6 +161,8 @@ public class StaffDashboardView {
 		panel.add(jBtnHireOut).setVisible(false);
 		panel.add(jBtnReturnVehicle).setVisible(false);
 		panel.add(jBtnHiredVehicle);
+		panel.add(jBtnLogout);
+		panel.add(jBtnDisplayVehicles).setVisible(false);
 
 		panel.add(jBtnAddCar).setVisible(false);
 		panel.add(jBtnAddMiniBus).setVisible(false);
@@ -169,79 +177,27 @@ public class StaffDashboardView {
 		return this.panel;
 	}
 
-	public void displayVehicles(ArrayList<Car> cars, ArrayList<MiniBus> minibuses, ArrayList<Lorry> lorries) {
-		int i = 1;
-		// display cars on JList
+	public void displayVehicles(final DefaultListModel<String> l1, final DefaultListModel<String> l2,
+			final DefaultListModel<String> l3) {
 
-		carListPanel = new JPanel();
-		lorryListPanel = new JPanel();
-		minibusListPanel = new JPanel();
-		final DefaultListModel<String> l1 = new DefaultListModel<>();
-		l1.addElement(
-				"S.N                              Make                              Model                              Registration Number");
-		if (cars == null) {
-			l1.addElement("No Cars Added!");
-		} else {
-			if (cars.isEmpty()) {
-				l1.addElement("No Cars Added!");
-			}
-			for (Car car1 : cars) {
-				l1.addElement(
-						i + "                                 " + car1.getMake() + "                              "
-								+ car1.getModel() + "                              " + car1.getRegistrationNumber());
-				i++;
-			}
-		}
+		carScrollPane = new JScrollPane();
+		lorryScrollPane = new JScrollPane();
+		minibusScrollPane = new JScrollPane();
+
 		list1 = new JList<>(l1);
-		carListPanel.add(new JScrollPane(list1));
-		carListPanel.setBounds(240, 120, 500, 100);
-		panel.add(carListPanel);
+		carScrollPane.setViewportView(list1);
+		carScrollPane.setBounds(240, 120, 500, 100);
+		panel.add(carScrollPane);
 
-		i = 1;
-		// display Lorry on JList
-		final DefaultListModel<String> l2 = new DefaultListModel<>();
-		l2.addElement(
-				"S.N                              Make                              Model                              Registration Number");
-		if (lorries == null) {
-			l2.addElement("No Lorry Added!");
-		} else {
-			if (lorries.isEmpty()) {
-				l2.addElement("No Lorry Added!");
-			}
-			for (Lorry lorry1 : lorries) {
-				l2.addElement(i + "                                 " + lorry1.getMake()
-						+ "                              " + lorry1.getModel() + "                              "
-						+ lorry1.getRegistrationNumber());
-				i++;
-			}
-		}
 		list2 = new JList<>(l2);
-		lorryListPanel.add(new JScrollPane(list2));
-		lorryListPanel.setBounds(240, 280, 500, 100);
-		panel.add(lorryListPanel);
+		lorryScrollPane.setViewportView(list2);
+		lorryScrollPane.setBounds(240, 280, 500, 100);
+		panel.add(lorryScrollPane);
 
-		// display Minibus on JList
-		int k = 1;
-		final DefaultListModel<String> l3 = new DefaultListModel<>();
-		l3.addElement(
-				"S.N                              Make                              Model                              Registration Number");
-		if (minibuses == null) {
-			l3.addElement("No Minibus Added!");
-		} else {
-			if (minibuses.isEmpty()) {
-				l3.addElement("No Minibus Added!");
-			}
-			for (MiniBus minibus1 : minibuses) {
-				l3.addElement(k + "                              " + minibus1.getMake()
-						+ "                              " + minibus1.getModel() + "                              "
-						+ minibus1.getRegistrationNumber());
-				k++;
-			}
-		}
 		list3 = new JList<>(l3);
-		minibusListPanel.add(new JScrollPane(list3));
-		minibusListPanel.setBounds(240, 440, 500, 100);
-		panel.add(minibusListPanel);
+		minibusScrollPane.setViewportView(list3);
+		minibusScrollPane.setBounds(240, 440, 500, 100);
+		panel.add(minibusScrollPane);
 	}
 
 	public void displayError(String error) {
@@ -252,34 +208,20 @@ public class StaffDashboardView {
 		return displayVehicleData;
 	}
 
-	public void displayCustomerList(ArrayList<User> customers) {
+	public void displayCustomerList(final DefaultListModel<String> l4) {
 		jLblCustomerListTitle = new JLabel("Customers");
-		customerListPanel = new JPanel();
-		int i = 1;
-		// display Customers on JList
-		final DefaultListModel<String> l4 = new DefaultListModel<>();
-		l4.addElement("S.N          Identification Number          Username          Corporation Name          Number");
-		if (customers == null) {
-			l4.addElement("No Customers Added!");
-		} else {
-			if (customers.isEmpty()) {
-				l4.addElement("No Customers Added!");
-			}
-			for (User user : customers) {
-				l4.addElement(i + "          " + user.getIdentificationNumber() + "          " + user.getUsername()
-						+ "          " + user.getCorporationName() + "          " + user.getPhoneNumber());
-				i++;
-			}
-		}
+		customerScrollPane = new JScrollPane();
+
 		list4 = new JList<>(l4);
-		customerListPanel.add(new JScrollPane(list4));
+
 //		customerListPanel.setBackground(Color.black);
 
 		jLblCustomerListTitle.setFont(new Font("Serif", Font.BOLD, 20));
 
-		customerListPanel.setBounds(240, 130, 500, 400);
+		customerScrollPane.setViewportView(list4);
+		customerScrollPane.setBounds(240, 130, 500, 400);
 		jLblCustomerListTitle.setBounds(440, 80, 200, 30);
-		panel.add(customerListPanel);
+		panel.add(customerScrollPane);
 		panel.add(jLblCustomerListTitle);
 
 	}
@@ -325,125 +267,59 @@ public class StaffDashboardView {
 		panel.add(jLblCustomerDetailsTitle);
 	}
 
-	public void displayHireRequests(ArrayList<String> list, ArrayList<String> hiredVechicles) {
+	public void displayHireRequests(final DefaultListModel<String> l5, final DefaultListModel<String> l6,
+			final DefaultListModel<String> l7) {
 		displayHireRequestPanel = new JPanel();
 		displayHireRequestPanel.setLayout(null);
 
-		String[] a = list.toArray(new String[0]);
-
-		int i = 1;
-
-		final DefaultListModel<String> l5 = new DefaultListModel<>();
-		l5.addElement("S.N      Vehicle Registration Number   Vehicle Request By       ");
-		for (int k = 0; k < list.size(); k++) {
-			String[] val = list.get(k).split(" ");
-			if (val[0].contentEquals("car")) {
-				if (hiredVechicles != null) {
-					for (int j = 0; j < hiredVechicles.size(); j++) {
-						String[] val1 = hiredVechicles.get(j).split(" ");
-						if (val1[0].contentEquals("car")) {
-							if ((val1[1].contentEquals(val[1]))) {
-								a[k] = null;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		for (String x : a) {
-			if (x != null) {
-				String val9[] = x.split(" ");
-				if (val9[0].contentEquals("car")) {
-					l5.addElement(x);
-				}
-			}
-
-		}
+		carRequestPane = new JScrollPane();
+		lorryRequestPane = new JScrollPane();
+		minibusRequestPane = new JScrollPane();
 
 		list5 = new JList<>(l5);
-		list5.setBounds(0, 0, 600, 150);
 
-		String[] b = list.toArray(new String[0]);
+		carRequestPane.setViewportView(list5);
+		carRequestPane.setBounds(0, 120, 600, 100);
 
-		i = 1;
+		JLabel jLblCarRequestTitle = new JLabel("Car Request");
+		jLblCarRequestTitle.setBounds(220, 80, 200, 30);
+		jLblCarRequestTitle.setFont(new Font("Serif", Font.BOLD, 20));
 
-		final DefaultListModel<String> l6 = new DefaultListModel<>();
-		l6.addElement("S.N      Vehicle Registration Number   Vehicle Request By       ");
-		for (int k = 0; k < list.size(); k++) {
-			String[] val = list.get(k).split(" ");
-			if (val[0].contentEquals("lorry")) {
-				if (hiredVechicles != null) {
-					for (int j = 0; j < hiredVechicles.size(); j++) {
-						String[] val1 = hiredVechicles.get(j).split(" ");
-						if (val1[0].contentEquals("lorry")) {
-							if ((val1[1].contentEquals(val[1]))) {
-								b[k] = null;
-							}
-						}
-					}
-				}
-			}
-		}
-		for (String x : b) {
-			if (x != null) {
-				String val9[] = x.split(" ");
-				if (val9[0].contentEquals("lorry")) {
-					l6.addElement(x);
-				}
-			}
-
-		}
+		displayHireRequestPanel.add(carRequestPane);
+		displayHireRequestPanel.add(jLblCarRequestTitle);
 
 		list6 = new JList<>(l6);
-		list6.setBounds(0, 170, 600, 150);
 
-		String[] c = list.toArray(new String[0]);
+		lorryRequestPane.setViewportView(list6);
+		lorryRequestPane.setBounds(0, 280, 600, 100);
+		displayHireRequestPanel.add(lorryRequestPane);
 
-		i = 1;
+		JLabel jLblLorryRequestTitle = new JLabel("Lorry Request");
+		jLblLorryRequestTitle.setBounds(220, 240, 200, 30);
+		jLblLorryRequestTitle.setFont(new Font("Serif", Font.BOLD, 20));
 
-		final DefaultListModel<String> l7 = new DefaultListModel<>();
-		l7.addElement("S.N      Vehicle Registration Number   Vehicle Request By       ");
-		for (int k = 0; k < list.size(); k++) {
-			String[] val = list.get(k).split(" ");
-			if (val[0].contentEquals("minibus")) {
-				if (hiredVechicles != null) {
-					for (int j = 0; j < hiredVechicles.size(); j++) {
-						String[] val1 = hiredVechicles.get(j).split(" ");
-						if (val1[0].contentEquals("minibus")) {
-							if ((val1[1].contentEquals(val[1]))) {
-								c[k] = null;
-							}
-						}
-					}
-				}
-			}
-		}
-		for (String x : c) {
-			if (x != null) {
-				String val9[] = x.split(" ");
-				if (val9[0].contentEquals("minibus")) {
-					l7.addElement(x);
-				}
-			}
-
-		}
+		displayHireRequestPanel.add(jLblLorryRequestTitle);
 
 		list7 = new JList<>(l7);
-		list7.setBounds(0, 340, 600, 150);
 
-		displayHireRequestPanel.add(list5);
-		displayHireRequestPanel.add(list6);
-		displayHireRequestPanel.add(list7);
+		minibusRequestPane.setViewportView(list7);
+		minibusRequestPane.setBounds(0, 440, 600, 100);
+		displayHireRequestPanel.add(minibusRequestPane);
 
-		displayHireRequestPanel.setBounds(250, 100, 500, 600);
+		JLabel jLblMiniBusRequestTitle = new JLabel("Minibus Request");
+		jLblMiniBusRequestTitle.setBounds(220, 400, 200, 30);
+		jLblMiniBusRequestTitle.setFont(new Font("Serif", Font.BOLD, 20));
+
+		displayHireRequestPanel.add(jLblMiniBusRequestTitle);
+
+		displayHireRequestPanel.setBounds(250, 0, 600, 600);
 
 		panel.add(displayHireRequestPanel);
 	}
 
 	public void displayHiredVehicles(String[] hiredVehicles) {
 		jBtnReturnVehicle.setVisible(true);
-		displayHiredVehiclePanel = new JPanel();
+		displayHiredVehiclePane = new JScrollPane();
 
 		int i = 1;
 		// display Customers on JList
@@ -455,7 +331,7 @@ public class StaffDashboardView {
 			l10.addElement("No Vehicle has been Hired!");
 		} else {
 			for (String data : hiredVehicles) {
-				String[] splittedData = data.split(" ");
+				String[] splittedData = data.split("\\s+");
 				if (splittedData[0].contentEquals("car")) {
 					vehicleType = "Car";
 				} else if (splittedData[0].contentEquals("lorry")) {
@@ -463,16 +339,17 @@ public class StaffDashboardView {
 				} else {
 					vehicleType = "Minibus";
 				}
-				l10.addElement(i + "                              " + splittedData[1] + "                              "
-						+ splittedData[2] + "                              " + vehicleType);
+				l10.addElement(
+						i + "                                  " + splittedData[1] + "                              "
+								+ splittedData[2] + "                              " + vehicleType);
 				i++;
 			}
 		}
 		list10 = new JList<>(l10);
-		displayHiredVehiclePanel.add(new JScrollPane(list10));
+		displayHiredVehiclePane.setViewportView(list10);
 
-		displayHiredVehiclePanel.setBounds(250, 100, 600, 500);
+		displayHiredVehiclePane.setBounds(250, 100, 600, 500);
 
-		panel.add(displayHiredVehiclePanel);
+		panel.add(displayHiredVehiclePane);
 	}
 }

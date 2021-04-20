@@ -17,17 +17,17 @@ import javax.swing.JTextField;
 
 public class CarView {
 
-	JButton jBtnAddCar;
+	JButton jBtnAddCar, jBtnCancel;
 	JTextField jTxtmake, jTxtmodel, jTxttopSpeed, jTxtregistrationNumber, jTxtdailyHireRate, jTxtfuelType,
 			jTxtnumberOfDoors;
-	JPanel panel;
+	JPanel panel, addCarPanel;
 	JFrame frame;
 
 	public void addCarGUI(JFrame frame) {
 		this.frame = frame;
 
 		panel = new JPanel();
-		JPanel addCarPanel = new JPanel();
+		addCarPanel = new JPanel();
 		addCarPanel.setLayout(null);
 
 		JLabel jLblMake = new JLabel("Make (Honda, Ford): ");
@@ -37,9 +37,9 @@ public class CarView {
 		JLabel jLblDailyHireRate = new JLabel("Daily Hire Rate: ");
 		JLabel jLblFuelType = new JLabel("Fuel Type (Petrol/Diesel): ");
 		JLabel jLblNumberOfDoors = new JLabel("Number of Doors: ");
-		
+
 		JLabel jLblTitle = new JLabel("Enter Car Details");
-		
+
 		Font font1 = new Font("SansSerif", Font.BOLD, 25);
 		jLblTitle.setFont(font1);
 
@@ -51,9 +51,11 @@ public class CarView {
 		jTxtfuelType = new JTextField(8);
 		jTxtnumberOfDoors = new JTextField(8);
 		jBtnAddCar = new JButton("Add Car");
+		jBtnCancel = new JButton("Cancel");
 
 		jBtnAddCar.setMaximumSize(new Dimension(260, 50));
-		
+		jBtnCancel.setMaximumSize(new Dimension(260, 50));
+
 		panel.add(jLblTitle);
 		panel.add(Box.createRigidArea(new Dimension(0, 20)));
 		panel.add(jLblMake);
@@ -78,8 +80,10 @@ public class CarView {
 		panel.add(jTxtnumberOfDoors);
 		panel.add(Box.createRigidArea(new Dimension(0, 20)));
 		panel.add(jBtnAddCar);
+		panel.add(Box.createRigidArea(new Dimension(0, 10)));
+		panel.add(jBtnCancel);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.setBounds(370, 10, 250, 500);
+		panel.setBounds(370, 10, 250, 600);
 		addCarPanel.add(panel);
 		frame.add(addCarPanel);
 	}
@@ -122,5 +126,10 @@ public class CarView {
 			err = err + error + "\n";
 		}
 		JOptionPane.showMessageDialog(frame, err, "Error", JOptionPane.WARNING_MESSAGE);
+	}
+
+	public void displaySuccessMessage() {
+		JOptionPane.showMessageDialog(frame, "Car Created!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
 	}
 }

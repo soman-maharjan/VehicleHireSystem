@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class UserView {
-	JButton jBtnLogin, jBtnRegisterCustomer, jBtnRegisterStaff;
+	JButton jBtnLogin, jBtnRegisterCustomer, jBtnRegisterStaff, jBtnCancel;
 	JTextField jTxtUsername, jTxtEmail, jTxtIdentificationNumber, jTxtCorporationName, jTxtAddress, jTxtPhoneNumber;
 	JPasswordField jTxtPassword;
 	JPanel panel;
@@ -31,14 +31,16 @@ public class UserView {
 		jTxtPassword = new JPasswordField(8);
 		jBtnRegisterStaff = new JButton("Register");
 		jBtnRegisterCustomer = new JButton();
-		
+		jBtnCancel = new JButton("Cancel");
+
 		jLblTitle.setBounds(360, 80, 400, 30);
-		
-		jLblUsername.setBounds(330,180,200,30);
-		jTxtUsername.setBounds(490,180,200,30);
-		jLblPassword.setBounds(330,250,200,30);
-		jTxtPassword.setBounds(490,250,200,30);
-		jBtnRegisterStaff.setBounds(420, 330, 200, 40);
+
+		jLblUsername.setBounds(330, 180, 200, 30);
+		jTxtUsername.setBounds(490, 180, 200, 30);
+		jLblPassword.setBounds(330, 250, 200, 30);
+		jTxtPassword.setBounds(490, 250, 200, 30);
+		jBtnRegisterStaff.setBounds(510, 330, 200, 30);
+		jBtnCancel.setBounds(300, 330, 200, 30);
 
 		panel.add(jLblTitle);
 		panel.add(jLblUsername);
@@ -46,6 +48,7 @@ public class UserView {
 		panel.add(jLblPassword);
 		panel.add(jTxtPassword);
 		panel.add(jBtnRegisterStaff);
+		panel.add(jBtnCancel);
 
 		panel.setSize(1000, 700);
 		frame.add(panel);
@@ -56,6 +59,7 @@ public class UserView {
 
 		panel = new JPanel();
 		JPanel addCustomerPanel = new JPanel();
+		panel.setLayout(null);
 
 		JLabel jLblTitle = new JLabel("Enter Customer's Detail");
 
@@ -79,38 +83,42 @@ public class UserView {
 		jTxtPassword = new JPasswordField(8);
 		jBtnRegisterCustomer = new JButton("Register");
 		jBtnRegisterStaff = new JButton();
+		jBtnCancel = new JButton("Cancel");
 
-		jBtnRegisterCustomer.setMaximumSize(new Dimension(260, 50));
+		jBtnCancel.setMaximumSize(new Dimension(350, 50));
+		jBtnRegisterCustomer.setMaximumSize(new Dimension(350, 50));
 
-		panel.add(jLblTitle);
-		panel.add(Box.createRigidArea(new Dimension(0, 20)));
-		panel.add(jLblIdentificationNumber);
-		panel.add(jTxtIdentificationNumber);
-		panel.add(Box.createRigidArea(new Dimension(0, 20)));
-		panel.add(jLblCorporationName);
-		panel.add(jTxtCorporationName);
-		panel.add(Box.createRigidArea(new Dimension(0, 20)));
-		panel.add(jLblAddress);
-		panel.add(jTxtAddress);
-		panel.add(Box.createRigidArea(new Dimension(0, 20)));
-		panel.add(jLblPhoneNumber);
-		panel.add(jTxtPhoneNumber);
-		panel.add(Box.createRigidArea(new Dimension(0, 20)));
-		panel.add(jLblEmail);
-		panel.add(jTxtEmail);
-		panel.add(Box.createRigidArea(new Dimension(0, 20)));
-		panel.add(jLblUsername);
-		panel.add(jTxtUsername);
-		panel.add(Box.createRigidArea(new Dimension(0, 20)));
-		panel.add(jLblPassword);
-		panel.add(jTxtPassword);
-		panel.add(Box.createRigidArea(new Dimension(0, 20)));
-		panel.add(jBtnRegisterCustomer);
+		addCustomerPanel.add(jLblTitle);
+		addCustomerPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		addCustomerPanel.add(jLblIdentificationNumber);
+		addCustomerPanel.add(jTxtIdentificationNumber);
+		addCustomerPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		addCustomerPanel.add(jLblCorporationName);
+		addCustomerPanel.add(jTxtCorporationName);
+		addCustomerPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		addCustomerPanel.add(jLblAddress);
+		addCustomerPanel.add(jTxtAddress); 
+		addCustomerPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		addCustomerPanel.add(jLblPhoneNumber);
+		addCustomerPanel.add(jTxtPhoneNumber);
+		addCustomerPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		addCustomerPanel.add(jLblEmail);
+		addCustomerPanel.add(jTxtEmail);
+		addCustomerPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		addCustomerPanel.add(jLblUsername);
+		addCustomerPanel.add(jTxtUsername);
+		addCustomerPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		addCustomerPanel.add(jLblPassword);
+		addCustomerPanel.add(jTxtPassword);
+		addCustomerPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		addCustomerPanel.add(jBtnRegisterCustomer);
+		addCustomerPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		addCustomerPanel.add(jBtnCancel);
 
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.setBounds(370, 10, 250, 500);
-		addCustomerPanel.add(panel);
-		frame.add(addCustomerPanel);
+		addCustomerPanel.setLayout(new BoxLayout(addCustomerPanel, BoxLayout.Y_AXIS));
+		addCustomerPanel.setBounds(370, 10, 300, 600);
+		panel.add(addCustomerPanel);
+		frame.add(panel);
 	}
 
 	public String getIdentificationNumber() {

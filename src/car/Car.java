@@ -74,8 +74,8 @@ public class Car extends Vehicle implements Serializable {
 		if (numberOfDoors.isEmpty()) {
 			errors.add("Number of Doors cannot be Empty!");
 		} else {
-			if (Integer.parseInt(numberOfDoors) < 0) {
-				errors.add("Number of Doors cannot be Negative!");
+			if (Integer.parseInt(numberOfDoors) <= 0) {
+				errors.add("Number of Doors cannot be Negative or Zero!");
 			}
 		}
 		if (errors.size() == 0) {

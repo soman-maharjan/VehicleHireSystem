@@ -6,19 +6,26 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import dashboard.CustomerDashboardView;
+import dashboard.Dashboard;
+import dashboard.DashboardController;
+import dashboard.StaffDashboardView;
 import user.User;
 
 public class CarController implements ActionListener {
 	private CarView view;
 	private Car model;
+	private String username;
 
-	public CarController(CarView carView, Car carModel, JFrame frame) {
+	public CarController(CarView carView, Car carModel, JFrame frame, String username) {
 		this.view = carView;
 		this.model = carModel;
+		this.username = username;
 
 		view.addCarGUI(frame);
 
 		view.jBtnAddCar.addActionListener(this);
+		view.jBtnCancel.addActionListener(this);
 	}
 
 	@Override
@@ -37,11 +44,25 @@ public class CarController implements ActionListener {
 				Car car = new Car(view.getMake(), view.getModel(), view.getTopSpeed(), view.getRegistrationNumber(),
 						view.getDailyHireRate(), view.getFuelType(), view.getNumberOfDoors());
 				model.storeObject(car, "./src/resources/carObjects.dat");
+				
+				homepage();
+				view.displaySuccessMessage();
 			} else {
 				// if the user input contains errors then the errors are displayed in the
 				// JOptionPane as Alert
 				view.displayError(errors);
 			}
+		} else if(e.getSource() == view.jBtnCancel) {
+			homepage();
 		}
+	}
+	
+	public void homepage() {
+		view.addCarPanel.setVisible(false);
+		Dashboard dashboard = new Dashboard();
+		StaffDashboardView staffDashboardView = new StaffDashboardView();
+		CustomerDashboardView customerDashboardView = new CustomerDashboardView();
+		DashboardController dashboardController = new DashboardController(staffDashboardView, customerDashboardView,
+				dashboard, view.frame, "staff", username);
 	}
 }

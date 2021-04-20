@@ -13,5 +13,4 @@ public class AppendingObjectOutputStream extends ObjectOutputStream {
   protected void writeStreamHeader() throws IOException {
     reset();
   }
-
 }

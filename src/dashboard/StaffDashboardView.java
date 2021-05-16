@@ -49,6 +49,7 @@ public class StaffDashboardView {
 			jLblPhoneNumber, jLblPhoneNumberValue, jLblEmail, jLblEmailValue, jLblVehicleDetails, jLblCustomerListTitle,
 			jLblCustomerDetailsTitle, jLblUsername, jLblUsernameValue;
 
+	//GUI function displays the staff dashboard
 	public void GUI(JFrame frame) {
 		this.frame = frame;
 		panel = new JPanel();
@@ -176,7 +177,7 @@ public class StaffDashboardView {
 	public JPanel getPanel() {
 		return this.panel;
 	}
-
+	
 	public void displayVehicles(final DefaultListModel<String> l1, final DefaultListModel<String> l2,
 			final DefaultListModel<String> l3) {
 
@@ -213,8 +214,6 @@ public class StaffDashboardView {
 		customerScrollPane = new JScrollPane();
 
 		list4 = new JList<>(l4);
-
-//		customerListPanel.setBackground(Color.black);
 
 		jLblCustomerListTitle.setFont(new Font("Serif", Font.BOLD, 20));
 
@@ -325,7 +324,7 @@ public class StaffDashboardView {
 		// display Customers on JList
 		final DefaultListModel<String> l10 = new DefaultListModel<>();
 		l10.addElement(
-				"S.N                              Registration Number                              Hired By                              Vehicle Type");
+				"S.N                              Registration Number                              Hired By                                   Vehicle Type");
 		String vehicleType;
 		if (hiredVehicles == null) {
 			l10.addElement("No Vehicle has been Hired!");
@@ -340,8 +339,8 @@ public class StaffDashboardView {
 					vehicleType = "Minibus";
 				}
 				l10.addElement(
-						i + "                                  " + splittedData[1] + "                              "
-								+ splittedData[2] + "                              " + vehicleType);
+						i + "                                  " + splittedData[1] + "                                                  "
+								+ splittedData[2] + "                                " + vehicleType);
 				i++;
 			}
 		}

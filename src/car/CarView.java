@@ -88,6 +88,8 @@ public class CarView {
 		frame.add(addCarPanel);
 	}
 
+	
+	//GETTERS
 	public JPanel getPanel() {
 		return panel;
 	}
@@ -120,6 +122,7 @@ public class CarView {
 		return jTxtregistrationNumber.getText().trim();
 	}
 
+	//display errro function that displays errors in JOptionPane
 	public void displayError(ArrayList<String> errors) {
 		String err = "";
 		for (String error : errors) {
@@ -128,6 +131,7 @@ public class CarView {
 		JOptionPane.showMessageDialog(frame, err, "Error", JOptionPane.WARNING_MESSAGE);
 	}
 
+	//display success message
 	public void displaySuccessMessage() {
 		JOptionPane.showMessageDialog(frame, "Car Created!", "Success", JOptionPane.INFORMATION_MESSAGE);
 

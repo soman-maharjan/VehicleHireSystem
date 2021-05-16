@@ -38,8 +38,12 @@ public class MiniBus extends Vehicle implements Serializable {
 		if (topSpeed.isEmpty()) {
 			errors.add("Top Speed cannot be Empty!");
 		} else {
-			if (Integer.parseInt(dailyHireRate) < 0) {
-				errors.add("Top Speed cannot be Negative!");
+			try {
+				if (Integer.parseInt(topSpeed) < 0) {
+					errors.add("Top Speed cannot be Negative!");
+				}
+			} catch (NumberFormatException e) {
+				errors.add("Top Speed must be an integer!");
 			}
 		}
 		if (registrationNumber.isEmpty()) {

@@ -108,7 +108,12 @@ public class DashboardController implements ActionListener {
 					model.getStaffVehicleList(minibuses, "No Minibus addeed!"));
 
 			user = new User();
-			ArrayList<User> users = user.getObjects("./src/resources/customerObjects.dat");
+			File file = new File("./src/resources/customerObjects.dat");
+			ArrayList<User> users = null;
+			if(file.exists()) {
+				users = user.getObjects("./src/resources/customerObjects.dat");
+			}
+			
 			staffView.displayCustomerList(model.getCustomersList(users));
 			staffView.displayCustomerDetail();
 
@@ -598,7 +603,7 @@ public class DashboardController implements ActionListener {
 	}
 
 	public void hideCustomerVehicles() {
-
+		//hide components
 		customerView.carScrollPane.setVisible(false);
 		customerView.lorryScrollPane.setVisible(false);
 		customerView.minibusScrollPane.setVisible(false);

@@ -21,6 +21,7 @@ import user.User;
 import vehicle.Vehicle;
 
 public class Dashboard {
+	//returns all hired vehicles
 	public ArrayList<String> getHiredVehicles(String fileName) {
 		ArrayList<String> list = new ArrayList<String>();
 		File requestFile = new File(fileName);
@@ -103,6 +104,7 @@ public class Dashboard {
 		return l1;
 	}
 
+	//generic function to get object with matching registration number
 	public <T> T getObject(String registrationNumber, ArrayList<T> objects) {
 		for (T obj : objects) {
 			if (((Vehicle) obj).getRegistrationNumber().contentEquals(registrationNumber)) {
@@ -112,6 +114,7 @@ public class Dashboard {
 		return null;
 	}
 
+	//update hired vehicles list
 	public void rewriteHiredVehicle(String fileName, ArrayList<String> vehicles) {
 		PrintWriter outputFile;
 		try {
@@ -162,6 +165,7 @@ public class Dashboard {
 		return t;
 	}
 
+	//function to get currently logged in user
 	public User getUser(String username, ArrayList<User> users) {
 		for (User user : users) {
 			if (user.getUsername().contentEquals(username)) {
@@ -184,23 +188,25 @@ public class Dashboard {
 
 		final DefaultListModel<String> l1 = new DefaultListModel<>();
 		l1.addElement(
-				"S.N          Make          Model          Registration Number          Top Speed          Daily Hire Rate");
+				"S.N          Make                    Model                    Registration Number                    Top Speed                    Daily Hire Rate");
 		if (cars == null || cars.isEmpty()) {
 			l1.addElement("No Cars Added!");
 		} else {
 			if (list != null && !(list.isEmpty())) {
 				for (Car car : cars) {
 					if (!(regNumList.contains(car.getRegistrationNumber()))) {
-						l1.addElement(i + "              " + car.getMake() + "          " + car.getModel()
-								+ "          " + car.getRegistrationNumber() + "                              "
-								+ car.getTopSpeed() + "                    " + car.getDailyHireRate());
+						l1.addElement(i + "              " + car.getMake() + "                     " + car.getModel()
+								+ "                      " + car.getRegistrationNumber()
+								+ "                                                " + car.getTopSpeed()
+								+ "                        " + car.getDailyHireRate());
 					}
 				}
 			} else {
 				for (Car car : cars) {
-					l1.addElement(i + "              " + car.getMake() + "          " + car.getModel() + "          "
-							+ car.getRegistrationNumber() + "                              " + car.getTopSpeed()
-							+ "                    " + car.getDailyHireRate());
+					l1.addElement(i + "              " + car.getMake() + "                     " + car.getModel()
+							+ "                      " + car.getRegistrationNumber()
+							+ "                                                " + car.getTopSpeed()
+							+ "                        " + car.getDailyHireRate());
 					i++;
 				}
 			}
@@ -227,16 +233,16 @@ public class Dashboard {
 			if (list != null && !(list.isEmpty())) {
 				for (MiniBus minibus : minibuses) {
 					if (!(regNumList.contains(minibus.getRegistrationNumber()))) {
-						l3.addElement(i + "              " + minibus.getMake() + "          " + minibus.getModel()
-								+ "          " + minibus.getRegistrationNumber() + "                              "
+						l3.addElement(i + "              " + minibus.getMake() + "            " + minibus.getModel()
+								+ "               " + minibus.getRegistrationNumber() + "                              "
 								+ minibus.getTopSpeed() + "                    " + minibus.getDailyHireRate()
 								+ "                              " + minibus.getSeatingCapacity());
 					}
 				}
 			} else {
 				for (MiniBus minibus : minibuses) {
-					l3.addElement(i + "              " + minibus.getMake() + "          " + minibus.getModel()
-							+ "          " + minibus.getRegistrationNumber() + "                              "
+					l3.addElement(i + "              " + minibus.getMake() + "            " + minibus.getModel()
+							+ "               " + minibus.getRegistrationNumber() + "                              "
 							+ minibus.getTopSpeed() + "                    " + minibus.getDailyHireRate()
 							+ "                              " + minibus.getSeatingCapacity());
 					i++;
@@ -265,7 +271,7 @@ public class Dashboard {
 				for (Lorry lorry : lorries) {
 					if (!(regNumList.contains(lorry.getRegistrationNumber()))) {
 						l2.addElement(i + "              " + lorry.getMake() + "          " + lorry.getModel()
-								+ "          " + lorry.getRegistrationNumber() + "                              "
+								+ "            " + lorry.getRegistrationNumber() + "                              "
 								+ lorry.getTopSpeed() + "                    " + lorry.getDailyHireRate()
 								+ "                              " + lorry.getLoadCapacity());
 					}
@@ -273,7 +279,7 @@ public class Dashboard {
 			} else {
 				for (Lorry lorry : lorries) {
 					l2.addElement(i + "              " + lorry.getMake() + "          " + lorry.getModel()
-							+ "          " + lorry.getRegistrationNumber() + "                              "
+							+ "            " + lorry.getRegistrationNumber() + "                              "
 							+ lorry.getTopSpeed() + "                    " + lorry.getDailyHireRate()
 							+ "                              " + lorry.getLoadCapacity());
 					i++;
@@ -295,9 +301,9 @@ public class Dashboard {
 				l1.addElement(defaultMessage);
 			}
 			for (T a : t) {
-				l1.addElement(i + "                                 " + ((Vehicle) a).getMake()
-						+ "                              " + ((Vehicle) a).getModel() + "                              "
-						+ ((Vehicle) a).getRegistrationNumber());
+				l1.addElement(i + "                                  " + ((Vehicle) a).getMake()
+						+ "                                " + ((Vehicle) a).getModel()
+						+ "                                 " + ((Vehicle) a).getRegistrationNumber());
 				i++;
 			}
 		}
@@ -312,12 +318,14 @@ public class Dashboard {
 
 		final DefaultListModel<String> l5 = new DefaultListModel<>();
 		if (vehicleType.contentEquals("car")) {
-			l5.addElement("S.N                    Registration Number                                 Request By");
+			l5.addElement(
+					"S.N                                                       Registration Number                                                                    Request By");
 		} else if (vehicleType.contentEquals("lorry")) {
-			l5.addElement("S.N               Registration Number               Request By               Load Capacity");
+			l5.addElement(
+					"S.N                               Registration Number                               Request By                               Load Capacity");
 		} else {
 			l5.addElement(
-					"S.N               Registration Number               Request By               Seating Capacity");
+					"S.N                               Registration Number                               Request By                               Seating Capacity");
 		}
 
 		for (int k = 0; k < list.size(); k++) {
@@ -342,14 +350,17 @@ public class Dashboard {
 				if (val9[0].contentEquals(vehicleType)) {
 
 					if (vehicleType.contentEquals("car")) {
-						l5.addElement(
-								i + "                    " + val9[1] + "                                 " + val9[2]);
+						l5.addElement(i + "                                                            " + val9[1]
+								+ "                                                                                      "
+								+ val9[2]);
 					} else if (vehicleType.contentEquals("lorry")) {
-						l5.addElement(i + "               " + val9[1] + "                              " + val9[2]
+						l5.addElement(i + "                                   " + val9[1]
+								+ "                                                   " + val9[2]
 								+ "                              " + val9[3]);
 					} else {
-						l5.addElement(i + "               " + val9[1] + "                                " + val9[2]
-								+ "                               " + val9[3]);
+						l5.addElement(i + "                                   " + val9[1]
+								+ "                                                   " + val9[2]
+								+ "                              " + val9[3]);
 					}
 				}
 			}
@@ -369,8 +380,9 @@ public class Dashboard {
 				l4.addElement("No Customers Added!");
 			}
 			for (User user : customers) {
-				l4.addElement(i + "          " + user.getIdentificationNumber() + "          " + user.getUsername()
-						+ "          " + user.getCorporationName() + "          " + user.getPhoneNumber());
+				l4.addElement(i + "              " + user.getIdentificationNumber() + "                              "
+						+ user.getUsername() + "              " + user.getCorporationName() + "                    "
+						+ user.getPhoneNumber());
 				i++;
 			}
 		}

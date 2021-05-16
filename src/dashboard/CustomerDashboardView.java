@@ -32,6 +32,7 @@ public class CustomerDashboardView {
 	JScrollPane carScrollPane, lorryScrollPane, minibusScrollPane;
 
 	public void GUI(JFrame frame) {
+		//customer dashboard
 		this.frame = frame;
 		panel = new JPanel();
 		panel.setLayout(null);
@@ -138,21 +139,23 @@ public class CustomerDashboardView {
 		jLblProfileTitle.setVisible(true);
 
 		jLblProfileTitle.setFont(new Font("Serif", Font.BOLD, 20));
-//		userDataPanel.setBackground(Color.white);
 		userDataPanel.setBounds(400, 120, 300, 400);
 		jLblProfileTitle.setBounds(420, 90, 200, 30);
 		panel.add(jLblProfileTitle);
 		panel.add(userDataPanel);
 	}
 
+	//display errors using joptionpane
 	public void displayError(String error) {
 		JOptionPane.showMessageDialog(frame, error, "Error", JOptionPane.WARNING_MESSAGE);
 	}
 
+	//getter from panel
 	public JPanel getPanel() {
 		return this.panel;
 	}
 
+	//function to display all hired vehicles
 	public void displayHiredVehicles(DefaultListModel<String> l1) {
 		hiredVehiclePanel = new JPanel();
 		jLblHiredVehicle = new JLabel("Currently Hired Vehicles");

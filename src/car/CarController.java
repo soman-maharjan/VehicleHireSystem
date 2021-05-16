@@ -21,7 +21,8 @@ public class CarController implements ActionListener {
 		this.view = carView;
 		this.model = carModel;
 		this.username = username;
-
+		
+		//call the addCarGUI if the CarController is called
 		view.addCarGUI(frame);
 
 		view.jBtnAddCar.addActionListener(this);
@@ -34,6 +35,7 @@ public class CarController implements ActionListener {
 
 			ArrayList<String> errors = new ArrayList<String>();
 
+			//get errors from the model after validating
 			errors = model.validateCar(view.jTxtmake.getText(), view.jTxtmodel.getText(), view.jTxttopSpeed.getText(),
 					view.jTxtregistrationNumber.getText(), view.jTxtdailyHireRate.getText(),
 					view.jTxtfuelType.getText(), view.jTxtnumberOfDoors.getText());
@@ -58,6 +60,7 @@ public class CarController implements ActionListener {
 	}
 	
 	public void homepage() {
+		//display the homepage
 		view.addCarPanel.setVisible(false);
 		Dashboard dashboard = new Dashboard();
 		StaffDashboardView staffDashboardView = new StaffDashboardView();

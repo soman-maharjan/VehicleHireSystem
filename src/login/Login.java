@@ -24,6 +24,7 @@ public class Login {
 	}
 
 	public boolean checkIfUserExists(String username, ArrayList<User> users) {
+		//this function returns true if the username exists in the file else false
 		for (User user : users) {
 			if (username.contentEquals(user.getUsername())) {
 				return true;

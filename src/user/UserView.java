@@ -13,12 +13,15 @@ public class UserView {
 	JPanel panel;
 	JFrame frame;
 
+	//gui for staff to create a new staff account
 	public void staffRegisterGUI(JFrame frame) {
 		this.frame = frame;
 
 		panel = new JPanel();
 
 		panel.setLayout(null);
+		
+		//username and password JLabels
 		JLabel jLblUsername = new JLabel("Username: ");
 		JLabel jLblPassword = new JLabel("Password: ");
 
@@ -35,6 +38,7 @@ public class UserView {
 
 		jLblTitle.setBounds(360, 80, 400, 30);
 
+		//setting boundaries for jlabels and jtextfields
 		jLblUsername.setBounds(330, 180, 200, 30);
 		jTxtUsername.setBounds(490, 180, 200, 30);
 		jLblPassword.setBounds(330, 250, 200, 30);
@@ -54,6 +58,7 @@ public class UserView {
 		frame.add(panel);
 	}
 
+	//GUI for staff to create a new customer account
 	public void customerRegisterGUI(JFrame frame) {
 		this.frame = frame;
 
@@ -89,6 +94,7 @@ public class UserView {
 		jBtnRegisterCustomer.setMaximumSize(new Dimension(350, 50));
 
 		addCustomerPanel.add(jLblTitle);
+		//creating a gap between titles and textbox
 		addCustomerPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 		addCustomerPanel.add(jLblIdentificationNumber);
 		addCustomerPanel.add(jTxtIdentificationNumber);
@@ -121,6 +127,7 @@ public class UserView {
 		frame.add(panel);
 	}
 
+	//getters and setters
 	public String getIdentificationNumber() {
 		return this.jTxtIdentificationNumber.getText().trim();
 	}
@@ -149,11 +156,14 @@ public class UserView {
 		return this.jTxtPassword.getText().trim();
 	}
 
+//	function to display error with arraylist as argument
 	public void displayError(ArrayList<String> errors) {
 		String err = "";
+		//for each errors store it in error string
 		for (String error : errors) {
 			err = err + error + "\n";
 		}
+		//using a joptionpane to show the errors to the user
 		JOptionPane.showMessageDialog(frame, err, "Error", JOptionPane.WARNING_MESSAGE);
 	}
 }

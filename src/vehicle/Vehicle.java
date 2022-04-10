@@ -11,7 +11,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import car.Car;
 import user.AppendingObjectOutputStream;
 
 public class Vehicle implements Serializable {

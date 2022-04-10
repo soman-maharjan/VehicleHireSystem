@@ -5,6 +5,7 @@ import java.io.OutputStream;
 
 public class AppendingObjectOutputStream extends ObjectOutputStream {
 
+	//AppendingObjectOutputStream removes the header problem when appending to java file
   public AppendingObjectOutputStream(OutputStream out) throws IOException {
     super(out);
   }

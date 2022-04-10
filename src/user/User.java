@@ -16,15 +16,20 @@ public class User implements Serializable {
 	private String username;
 	private String password;
 	
+	//generic function to store objects 
 	public <T> void storeObject(T cl, String fileName) {
 		try {
+			//creating a file object to check if the file exists or not
 			File f = new File(fileName);
 			if (f.exists() && !f.isDirectory()) {
+				//using the AppendingObjectOutputStream to append object to file
 				AppendingObjectOutputStream aoos = new AppendingObjectOutputStream(
 						new FileOutputStream(fileName, true));
+				//writing the object to file
 				aoos.writeObject(cl);
 				aoos.close();
 			} else {
+				//if the file does not exist then use ObjectOutputStream to append object to file without header problem
 				ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName, true));
 				oos.writeObject(cl);
 				oos.close();
@@ -34,16 +39,21 @@ public class User implements Serializable {
 		}
 	}
 
+	//generic function to get objects with filename as parameter
 	public <T> ArrayList<T> getObjects(String fileName) {
+		//using arraylist to store objects 
 		ArrayList<T> t = new ArrayList<T>();
 		try {
 			FileInputStream fis = new FileInputStream(fileName);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			T obj = null;
+			//read object from file until it is empty
 			while ((obj = (T) ois.readObject()) != null) {
+				//add the object to arraylist
 				t.add((obj));
 			}
 			ois.close();
+			//exceptions
 		} catch (EOFException ex) {
 
 		} catch (ClassNotFoundException ex) {
@@ -56,14 +66,20 @@ public class User implements Serializable {
 		return t;
 	}
 
+	//validate staff function to validate username and password
 	public ArrayList<String> validateStaff(String username, String password) {
+		//arraylist to store errors
 		ArrayList<String> errors = new ArrayList<String>();
+		
+		//check if the variables are empty, if it is then store errors in arraylist
 		if (username.isEmpty()) {
 			errors.add("Username cannot be Empty!");
 		} else {
 			File file = new File("./src/resources/staffObjects.dat");
+			//check if the username already exists using the staffObject file
 			if (file.exists()) {
 				ArrayList<User> userObj = getObjects("./src/resources/staffObjects.dat");
+				//foreach user object in file check if the username matches
 				for (User user : userObj) {
 					if (username.contentEquals(user.getUsername())) {
 						errors.add("Username Already Exists!");
@@ -81,13 +97,16 @@ public class User implements Serializable {
 		}
 	}
 
+	//function to validate customer 
 	public ArrayList<String> validateCustomer(String identificationNumber, String corporationName, String address,
 			String phoneNumber, String email, String username, String password) {
 		ArrayList<String> errors = new ArrayList<String>();
 
+		//check if the variables are empty, if it is then add error to arraylist
 		if (identificationNumber.isEmpty()) {
 			errors.add("Identification Number cannot be Empty!");
 		} else {
+			//check if the identification number exists
 			File file = new File("./src/resources/customerObjects.dat");
 			if (file.exists()) {
 				ArrayList<User> userObj = getObjects("./src/resources/customerObjects.dat");
@@ -113,8 +132,10 @@ public class User implements Serializable {
 			File file = new File("./src/resources/customerObjects.dat");
 			if (file.exists()) {
 				ArrayList<User> userObj = getObjects("./src/resources/customerObjects.dat");
+				//foreach user object in file, check if the username matches to the one entered by the user
 				for (User user : userObj) {
 					if (username.contentEquals(user.getUsername())) {
+						// if the username exists then add errors to the arraylist
 						errors.add("Username Already Exists!");
 					}
 				}
@@ -133,6 +154,7 @@ public class User implements Serializable {
 		}
 	}
 
+	//getters and setters
 	public String getIdentificationNumber() {
 		return identificationNumber;
 	}

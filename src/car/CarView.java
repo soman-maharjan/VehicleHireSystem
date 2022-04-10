@@ -23,6 +23,7 @@ public class CarView {
 	JPanel panel, addCarPanel;
 	JFrame frame;
 
+	//GUI to add cars in the system
 	public void addCarGUI(JFrame frame) {
 		this.frame = frame;
 
@@ -122,7 +123,7 @@ public class CarView {
 		return jTxtregistrationNumber.getText().trim();
 	}
 
-	//display errro function that displays errors in JOptionPane
+	//display error function that displays errors in JOptionPane
 	public void displayError(ArrayList<String> errors) {
 		String err = "";
 		for (String error : errors) {

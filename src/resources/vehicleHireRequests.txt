@@ -1,2 +1,8 @@
 car 123456789 customer1
 lorry 231456897 customer1 500
+car 321456987 customer1
+car 123456789 customer1
+lorry 231456897 customer1 100
+car 123456789 customer1
+lorry 321654987 customer1 100
+minibus 945137888 customer1 5

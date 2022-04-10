@@ -7,11 +7,12 @@ public class VehicleHireSystemView {
 	private JPanel panel;
 	private JFrame frame;
 
+	// gui function that displays landing page
 	public void GUI() {
-		frame = new JFrame("Vehicle Hire System");
+		frame = new JFrame("VEHICLE HIRE SYSTEM");
 
 		panel = new JPanel();
-		JLabel jLblTitle = new JLabel("Vehicle Hire System");
+		JLabel jLblTitle = new JLabel("VEHICLE HIRE SYSTEM");
 		jBtnEnter = new JButton("Use Now!");
 		
 		Font font1 = new Font("SansSerif", Font.BOLD, 25);
@@ -21,7 +22,7 @@ public class VehicleHireSystemView {
 		
 		panel.setLayout(null);
 		
-		jLblTitle.setBounds(380, 180, 400, 30);
+		jLblTitle.setBounds(350, 180, 400, 30);
 		jBtnEnter.setBounds(400, 300, 200, 40);
 		panel.add(jLblTitle);
 		frame.add(panel);
@@ -31,6 +32,7 @@ public class VehicleHireSystemView {
 		frame.setVisible(true);
 	}
 
+	//getter methods for JFrame and JPanel
 	public JFrame getFrame() {
 		return this.frame;
 	}

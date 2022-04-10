@@ -25,8 +25,10 @@ public class Dashboard {
 	public ArrayList<String> getHiredVehicles(String fileName) {
 		ArrayList<String> list = new ArrayList<String>();
 		File requestFile = new File(fileName);
+		//check if the file exists
 		if (requestFile.exists()) {
 			Scanner inputFile;
+			//try copying the contents of the file
 			try {
 				inputFile = new Scanner(requestFile);
 				while (inputFile.hasNext()) {
@@ -34,6 +36,7 @@ public class Dashboard {
 				}
 				inputFile.close();
 				return list;
+				//catch any exception
 			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();
 			}

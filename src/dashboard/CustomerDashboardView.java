@@ -175,6 +175,7 @@ public class CustomerDashboardView {
 	}
 
 	public void displaySuccessMessage() {
+		//display success message using JOptionPane
 		JOptionPane.showMessageDialog(frame, "Vehicle has been requested for Hire!", "Success",
 				JOptionPane.INFORMATION_MESSAGE);
 	}
